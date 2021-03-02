@@ -51,9 +51,9 @@ public class ComentarioServiceController {
         return new ResponseEntity<>(list, new HttpHeaders(), HttpStatus.OK);
     }
 
-    @PostMapping("place/{place_id}/user/{user_id}")
-    public ResponseEntity<Comentario> createComentary(@PathVariable("place_id") Long place_id,@PathVariable("user_id") Long user_id,@Valid @RequestBody Comentario myComentary) {
-        Comentario entity = service.createComentary(myComentary,user_id,place_id);
+    @PostMapping("user/{user_id}/place/{place_id}")
+    public ResponseEntity<Comentario> createComentary(@Valid @RequestBody Comentario myComentary, @PathVariable("place_id") Long place_id,@PathVariable("user_id") Long user_id) {
+        Comentario entity = service.createComentary(myComentary,place_id,user_id);
 
         return new ResponseEntity<Comentario>(entity, new HttpHeaders(), HttpStatus.OK);
     }

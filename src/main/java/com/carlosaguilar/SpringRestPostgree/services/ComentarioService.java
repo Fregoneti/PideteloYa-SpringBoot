@@ -4,6 +4,7 @@ import com.carlosaguilar.SpringRestPostgree.exception.RecordNotFoundException;
 import com.carlosaguilar.SpringRestPostgree.model.Comentario;
 import com.carlosaguilar.SpringRestPostgree.model.Foto;
 import com.carlosaguilar.SpringRestPostgree.model.Lugar;
+import com.carlosaguilar.SpringRestPostgree.model.Usuario;
 import com.carlosaguilar.SpringRestPostgree.repository.ComentarioRepository;
 import com.carlosaguilar.SpringRestPostgree.repository.LugarRepository;
 import com.carlosaguilar.SpringRestPostgree.repository.UsuarioRepository;
@@ -70,23 +71,16 @@ public class ComentarioService {
      * @param entity
      * @return Devuelve la entidad creada
      */
-    public Comentario createComentary(Comentario entity, Long user_id, Long place_id) {
-/*
-        System.out.println("Creando comentario");
-        repositoryLugar.findById(place_id).map(lugar -> {
-            entity.setPlacesComments(lugar);
-            return repositoryComentario.save(entity);
-        });
+    public Comentario createComentary(Comentario entity, Long place_id, Long user_id) {
+        System.out.println("Creando Comentario");
+        Optional<Lugar> lugar;
+        Optional<Usuario> usuario;
+        lugar=repositoryLugar.findById(place_id);
+        usuario=repositoryUsuario.findById(user_id);
+        entity.setUsuario(usuario.get());
+        entity.setLugar(lugar.get());
 
-        repositoryUsuario.findById(user_id).map(usuario -> {
-            entity.setUsers(usuario);
-            return repositoryComentario.save(entity);
-        });
         return repositoryComentario.save(entity);
-
-       /* entity = repositoryComentario.save(entity);
-      */  return entity;
-
     }
 
 

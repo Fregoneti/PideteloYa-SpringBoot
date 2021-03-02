@@ -2,19 +2,9 @@ package com.carlosaguilar.SpringRestPostgree.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
-import java.util.Set;
-import javax.persistence.*;
-import java.io.Serializable;
-import java.util.Set;
-import java.util.TreeSet;
 
 
 @Entity
@@ -43,16 +33,13 @@ public class Lugar {
     @Column(name = "adress", length = 256)
     private String adress;
 
+    @OneToMany(mappedBy = "lugar")
+    @JsonIgnoreProperties("lugar")
+    List<Comentario> comentarios;
 
-    /**
-     * Lista de comentarios
-     */
-    @JsonIgnoreProperties(value = {"placesComments"}, allowSetters = true)
-    @ManyToMany(mappedBy = "placesComments", cascade = {CascadeType.MERGE})
-    private List<Comentario> comments;
-
-
-
+    @OneToMany(mappedBy = "lugar")
+    @JsonIgnoreProperties("lugar")
+    List<Foto> fotos;
 
 
     public Lugar(Long id, @NotBlank String name, String phone, String adress) {
@@ -60,11 +47,27 @@ public class Lugar {
         this.name = name;
         this.phone = phone;
         this.adress = adress;
-       // this.comentario = comentario;
+        // this.comentario = comentario;
     }
 
     public Lugar() {
 
+    }
+
+    public List<Foto> getFotos() {
+        return fotos;
+    }
+
+    public void setFotos(List<Foto> fotos) {
+        this.fotos = fotos;
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
     }
 
     public Long getId() {
@@ -99,13 +102,6 @@ public class Lugar {
         this.name = name;
     }
 
-    public List<Comentario> getComments() {
-        return comments;
-    }
-
-    public void setComments(List<Comentario> comments) {
-        this.comments = comments;
-    }
 
     @Override
     public String toString() {

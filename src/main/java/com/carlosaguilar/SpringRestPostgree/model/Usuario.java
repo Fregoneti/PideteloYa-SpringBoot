@@ -30,29 +30,25 @@ public class Usuario {
     @Column(name = "pass", length = 256)
     private String pass;
 
+
+
+    @OneToMany(mappedBy = "usuario")
+    @JsonIgnoreProperties("usuario")
+    List<Comentario> comentarios;
     /**
      * Lista de comentarios de un usuario
      */
-    @JsonIgnoreProperties(value = {"users"}, allowSetters = true)
-    @ManyToMany(mappedBy = "users",cascade = {CascadeType.MERGE})
-    private List<Comentario> comments;
 
     public Usuario(Long id, @NotBlank String email, @NotBlank String pass, List<Comentario> comments) {
         this.id = id;
         this.email = email;
         this.pass = pass;
-        this.comments = comments;
+
     }
     public Usuario(){};
 
 
-    public List<Comentario> getComments() {
-        return comments;
-    }
 
-    public void setComments(List<Comentario> comments) {
-        this.comments = comments;
-    }
 
     public Long getId() {
         return id;
@@ -76,6 +72,14 @@ public class Usuario {
 
     public void setPass(String pass) {
         this.pass = pass;
+    }
+
+    public List<Comentario> getComentarios() {
+        return comentarios;
+    }
+
+    public void setComentarios(List<Comentario> comentarios) {
+        this.comentarios = comentarios;
     }
 
     @Override

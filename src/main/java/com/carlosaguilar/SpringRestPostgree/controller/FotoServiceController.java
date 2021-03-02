@@ -24,14 +24,7 @@ public class FotoServiceController {
     FotoService service;
 
 
-    @GetMapping
-    public ResponseEntity<List<Foto>> getAllPhoto(@PathVariable Long questionId) {
-        List<Foto> list = service.getAllPhoto();
-
-        return new ResponseEntity<List<Foto>>(list, new HttpHeaders(), HttpStatus.OK);
-    }
-
-    @GetMapping("/place/{place_id}")
+     @GetMapping("/place/{place_id}")
     public ResponseEntity<Foto> getPhotoById(@PathVariable Long place_id,@PathVariable("id") Long id)
             throws RecordNotFoundException {
         Foto entity = service.getPhotoById(id);

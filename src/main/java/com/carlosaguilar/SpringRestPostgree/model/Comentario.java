@@ -22,31 +22,43 @@ public class Comentario {
      */
     @Column(name = "description", length = 256)
     private String description;
-    /**
-     * Un set de usuario que ha comentado
-     */
-    @JsonIgnoreProperties(value = {"comments"}, allowSetters = true)
-    @ManyToMany(cascade = {CascadeType.MERGE})
-    @JoinTable(name = "user_comentary", joinColumns = @JoinColumn(name = "comentary_id"), inverseJoinColumns = @JoinColumn(name = "user_id"))
-    private Set<Usuario> users;
 
-    /**
-     * Un set del lugar comentado
-     */
-    @JsonIgnoreProperties(value = {"comments"}, allowSetters = true)
-    @JoinTable(name = "placesComments", joinColumns = @JoinColumn(name = "comentary_id"), inverseJoinColumns = @JoinColumn(name = "place_id"))
-    @ManyToMany(cascade = {CascadeType.MERGE})
-    private Set<Lugar> placesComments;
 
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JsonIgnoreProperties("comentarios")
+    @JoinColumn(name = "places", nullable = true)
+    Lugar lugar;
+
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
+    @JsonIgnoreProperties("comentarios")
+    @JoinColumn(name = "Usuarios", nullable = true)
+    Usuario usuario;
 
     public Comentario() {
     }
 
-    public Comentario(Long id, String description, Set<Usuario> users, Set<Lugar> placesComments) {
+    public Comentario(Long id, String description, Lugar lugar, Usuario usuario) {
         this.id = id;
         this.description = description;
-        this.users = users;
-        this.placesComments = placesComments;
+        this.lugar = lugar;
+        this.usuario = usuario;
+    }
+
+    public Lugar getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(Lugar lugar) {
+        this.lugar = lugar;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 
     public Long getId() {
@@ -66,30 +78,15 @@ public class Comentario {
         this.description = description;
     }
 
-    public Set<Usuario> getUsers() {
-        return users;
-    }
 
-    public void setUsers(Set<Usuario> users) {
-        this.users = users;
 
-    }
-
-    public Set<Lugar> getPlacesComments() {
-        return placesComments;
-    }
-
-    public void setPlacesComments(Set<Lugar> placesComments) {
-        this.placesComments = placesComments;
-    }
 
     @Override
     public String toString() {
         return "Comentario{" +
                 "id=" + id +
                 ", description='" + description + '\'' +
-                ", users=" + users +
-                ", placesComments=" + placesComments +
+
                 '}';
     }
 }
